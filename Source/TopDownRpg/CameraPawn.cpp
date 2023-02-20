@@ -125,7 +125,14 @@ void ACameraPawn::Order(const FInputActionValue& Value)
 
 	if (Ordering)
 	{
-	
+		TArray<TEnumAsByte<EObjectTypeQuery>> Array;
+		Array.Add(EObjectTypeQuery::ObjectTypeQuery7);
+		FHitResult HitResult;
+
+		if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorForObjects(Array, true, HitResult)&& SelectedCharacter)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *HitResult.Location.ToString())
+		}
 	}
 }
 
