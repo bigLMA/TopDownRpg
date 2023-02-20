@@ -6,10 +6,12 @@
 #include "GameFramework/Character.h"
 #include "AiCharacter.generated.h"
 
+class USelectionDecal;
+
 UENUM()
 enum class EAttitudeTowardsPlayer :uint8
 {
-	Hostile, Neutral, Allied, Under_Control
+	Hostile, Neutral, Under_Control
 };
 
 UCLASS()
