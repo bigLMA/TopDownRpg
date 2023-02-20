@@ -98,7 +98,12 @@ void ACameraPawn::Select(const FInputActionValue& Value)
 
 	if(Selection)
 	{
-	
+
+		FHitResult HitResult;
+		if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery3, true, HitResult))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("clicked %s"), *HitResult.GetActor()->GetName())
+		}
 	}
 }
 
