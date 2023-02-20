@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "AiCharacter.h"
 
 // Sets default values
 ACameraPawn::ACameraPawn()
@@ -96,13 +97,23 @@ void ACameraPawn::Select(const FInputActionValue& Value)
 {
 	auto Selection = Value.Get<bool>();
 
+	if(SelectedCharacter)
+	{
+		SelectedCharacter->Selected(false);
+		SelectedCharacter = nullptr;
+	}
+
 	if(Selection)
 	{
-
 		FHitResult HitResult;
+
 		if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery3, true, HitResult))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("clicked %s"), *HitResult.GetActor()->GetName())
+			if (AAiCharacter* Character = Cast<AAiCharacter>(HitResult.GetActor()))
+			{
+				SelectedCharacter = Character;
+				SelectedCharacter->Selected(true);
+			}
 		}
 	}
 }

@@ -12,6 +12,7 @@ class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
 class UFloatingPawnMovement;
+class AAiCharacter;
 
 UCLASS()
 class TOPDOWNRPG_API ACameraPawn : public APawn
@@ -65,6 +66,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Order")
 		UInputAction* OrderUnit;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Selected Pawn")
+		AAiCharacter* SelectedCharacter = nullptr;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
