@@ -14,7 +14,6 @@ AAiCharacter::AAiCharacter()
 void AAiCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -29,5 +28,11 @@ void AAiCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+
+EAttitudeTowardsPlayer AAiCharacter::GetAttitude()
+{
+	return AttitudeTowardsPlayer;
 }
 

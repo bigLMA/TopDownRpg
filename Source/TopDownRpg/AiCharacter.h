@@ -39,4 +39,6 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void Selected(bool IsSelected);
+
+	EAttitudeTowardsPlayer GetAttitude();
 };

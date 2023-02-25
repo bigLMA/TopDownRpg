@@ -8,6 +8,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "AiCharacter.h"
+#include "AIControllerBase.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 
 // Sets default values
 ACameraPawn::ACameraPawn()
@@ -123,15 +125,18 @@ void ACameraPawn::Order(const FInputActionValue& Value)
 {
 	auto Ordering = Value.Get<bool>();
 
-	if (Ordering)
+	if (Ordering && SelectedCharacter)
 	{
+
+		AAIControllerBase* SelectedCharacterController = Cast< AAIControllerBase>(UAIBlueprintHelperLibrary::GetAIController(SelectedCharacter));
+
 		TArray<TEnumAsByte<EObjectTypeQuery>> Array;
 		Array.Add(EObjectTypeQuery::ObjectTypeQuery7);
 		FHitResult HitResult;
 
-		if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorForObjects(Array, true, HitResult)&& SelectedCharacter)
+		if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorForObjects(Array, true, HitResult)&& Controller)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *HitResult.Location.ToString())
+			SelectedCharacterController->SetMoveValue(HitResult.Location);
 		}
 	}
 }
