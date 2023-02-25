@@ -46,4 +46,9 @@ public:
 	AAIControllerBase();
 
 	void SetMoveValue(const FVector& Value);
+
+	void SetInteractedActor(AActor* Actor);
+
+	UFUNCTION(BlueprintCallable, Category = "Reset Blackboard")
+	void ResetBlackboardValues();
 };

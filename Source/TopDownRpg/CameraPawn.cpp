@@ -127,16 +127,23 @@ void ACameraPawn::Order(const FInputActionValue& Value)
 
 	if (Ordering && SelectedCharacter)
 	{
-
 		AAIControllerBase* SelectedCharacterController = Cast< AAIControllerBase>(UAIBlueprintHelperLibrary::GetAIController(SelectedCharacter));
 
-		TArray<TEnumAsByte<EObjectTypeQuery>> Array;
-		Array.Add(EObjectTypeQuery::ObjectTypeQuery7);
-		FHitResult HitResult;
-
-		if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorForObjects(Array, true, HitResult)&& Controller)
+		if(Controller)
 		{
-			SelectedCharacterController->SetMoveValue(HitResult.Location);
+			TArray<TEnumAsByte<EObjectTypeQuery>> Array;
+			Array.Add(EObjectTypeQuery::ObjectTypeQuery7);
+			FHitResult HitResult;
+
+			if(GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(TraceTypeQuery4, true, HitResult) && HitResult.GetActor()!= SelectedCharacter)
+			{
+				SelectedCharacterController->SetMoveValue(HitResult.Location);
+				SelectedCharacterController->SetInteractedActor(HitResult.GetActor());
+			}
+			else if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorForObjects(Array, true, HitResult) && HitResult.GetActor() != SelectedCharacter)
+			{
+				SelectedCharacterController->SetMoveValue(HitResult.Location);
+			}
 		}
 	}
 }

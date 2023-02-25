@@ -62,6 +62,28 @@ void AAIControllerBase::RunBT()
 
 void AAIControllerBase::SetMoveValue(const FVector& Value)
 {
-	BlackboardBase->SetValueAsVector(("MovePoint"), Value);
+	ResetBlackboardValues();
+
+	BlackboardBase->SetValueAsVector("MovePoint", Value);
+}
+
+
+void AAIControllerBase::SetInteractedActor(AActor* Actor)
+{
+
+	ResetBlackboardValues();
+
+	auto ObjectToSet = Cast<UObject>(Actor);
+	BlackboardBase->SetValueAsObject("InteractedActor", Actor);
+
+	auto const Location = Actor->GetActorLocation();
+	BlackboardBase->SetValueAsVector("MovePoint", Location);
+}
+
+
+void AAIControllerBase::ResetBlackboardValues()
+{
+	BlackboardBase->ClearValue("MovePoint");
+	BlackboardBase->ClearValue("InteractedActor");
 }
 
