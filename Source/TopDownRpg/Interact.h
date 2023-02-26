@@ -14,4 +14,12 @@ class TOPDOWNRPG_API UInteract : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 	
+public:
+	UInteract(const FObjectInitializer& ObjectInitializer);
+
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory);
+
+	UPROPERTY(EditAnywhere)
+	FBlackboardKeySelector InteractedActor;
+
 };
