@@ -9,11 +9,6 @@ UStatsComponent::UStatsComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
-
-	SetMaxEnergy();
-	SetMaxHealth();
-	SetMagres();
-	SetArmour();
 }
 
 
@@ -21,7 +16,6 @@ UStatsComponent::UStatsComponent()
 void UStatsComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 
@@ -52,6 +46,13 @@ void UStatsComponent::SetHealth(int32 ValueToChange)
 
 
 //
+void UStatsComponent::ResetHealth()
+{
+	Health = MaxHealth;
+}
+
+
+//
 void UStatsComponent::SetMaxEnergy()
 {
 	float DivideValue = float(Energy) / float(MaxEnergy);
@@ -74,6 +75,13 @@ void UStatsComponent::SetEnergy(int32 ValueToChange)
 {
 	Energy += ValueToChange;
 	Energy = FMath::Clamp(Energy, 0, MaxEnergy);
+}
+
+
+
+void UStatsComponent::ResetEnergy()
+{
+	Energy = MaxEnergy;
 }
 
 
@@ -158,4 +166,16 @@ void UStatsComponent::SetMagresModifier(int32 ValueToChange)
 {
 	MagresModifier += ValueToChange;
 	SetMagres();
+}
+
+
+//
+void UStatsComponent::InitializeStats()
+{
+	SetMaxEnergy();
+	SetMaxHealth();
+	SetMagres();
+	SetArmour();
+	ResetHealth();
+	ResetEnergy();
 }

@@ -20,13 +20,19 @@ public:
 	void SetMaxHealth();
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
-	void SetHealth(int32 ValueToChange = 0);
+	void SetHealth(int32 ValueToChange);
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void ResetHealth();
 
 	UFUNCTION(BlueprintCallable, Category = "Max Energy")
 	void SetMaxEnergy();
 
 	UFUNCTION(BlueprintCallable, Category = "Energy")
-	void SetEnergy(int32 ValueToChange = 0);
+	void SetEnergy(int32 ValueToChange);
+
+	UFUNCTION(BlueprintCallable, Category = "Energy")
+	void ResetEnergy();
 
 	UFUNCTION(BlueprintCallable, Category = "Armour")
 	void SetArmour();
@@ -58,6 +64,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Modifier|Magres")
 	void SetMagresModifier(int32 ValueToChange);
 
+	UFUNCTION(BlueprintCallable, Category = "Initialization")
+	void InitializeStats();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -68,8 +77,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Max Health")
 	int32 MaxHealth;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Health")
-	int32 Health = MaxHealth;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
+	int32 Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Max Energy|Base Value")
 	int32 BaseMaxEnergy = 7;
@@ -77,8 +86,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Max Energy")
 	int32 MaxEnergy;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Energy")
-	int32 Energy = MaxEnergy;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Energy")
+	int32 Energy;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Strength")
 	int32 Strength = 1;
@@ -93,13 +102,13 @@ protected:
 	int32 Intelligence = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Armour|Base Value")
-	int32 BaseArmour;
+	int32 BaseArmour = 5;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Armour")
 	int32 Armour;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Magres|Base Value")
-	int32 BaseMagres;
+	int32 BaseMagres = 2;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Magres")
 	int32 Magres;
