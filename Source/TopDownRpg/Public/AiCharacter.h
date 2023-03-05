@@ -7,6 +7,7 @@
 #include "AiCharacter.generated.h"
 
 class USelectionDecal;
+class UStatsComponent;
 
 UENUM()
 enum class EAttitudeTowardsPlayer :uint8
@@ -29,6 +30,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI Behaviour")
 	EAttitudeTowardsPlayer AttitudeTowardsPlayer = EAttitudeTowardsPlayer::Neutral;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
+	UStatsComponent* Stats;
 
 public:	
 	// Called every frame
