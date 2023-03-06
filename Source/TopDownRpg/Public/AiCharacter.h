@@ -8,6 +8,7 @@
 
 class USelectionDecal;
 class UStatsComponent;
+class UStatusEffectComponent;
 
 UENUM()
 enum class EAttitudeTowardsPlayer :uint8
@@ -33,6 +34,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats")
 	UStatsComponent* Stats;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Status Effects")
+	UStatusEffectComponent* StatusEffects;
 
 public:	
 	// Called every frame

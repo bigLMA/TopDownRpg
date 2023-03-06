@@ -2,6 +2,7 @@
 
 
 #include "StatsComponent.h"
+#include "StatusEffectComponent.h"
 
 // Sets default values for this component's properties
 UStatsComponent::UStatsComponent()
@@ -16,6 +17,13 @@ UStatsComponent::UStatsComponent()
 void UStatsComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	StatusEffectComponent = GetOwner()->FindComponentByClass<UStatusEffectComponent>();
+
+	if (StatusEffectComponent)
+	{
+		StatusEffectComponent->OnEffectFire.AddDynamic(this, &UStatsComponent::ApplyEffect);
+	}
 }
 
 
@@ -178,4 +186,56 @@ void UStatsComponent::InitializeStats()
 	SetArmour();
 	ResetHealth();
 	ResetEnergy();
+}
+
+
+//
+void UStatsComponent::ApplyEffect(FGameplayTag GameplayTag, int32 EffectValue)
+{
+	FGameplayTag StateTag = FGameplayTag::RequestGameplayTag("State");
+
+	if (GameplayTag.MatchesTag(StateTag))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("StateTag"))
+	}
+	else if(GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Strength")))
+	{
+		SetStrength(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Agility")))
+	{
+		SetAgility(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Constitution")))
+	{
+		SetConstitution(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Intelligence")))
+	{
+		SetIntelligence(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.MaxHealth")))
+	{
+		SetMaxHealthModifier(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.MaxEnergy")))
+	{
+		SetMaxEnergyModifier(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Armour")))
+	{
+		SetArmourModifier(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Magres")))
+	{
+		SetMagresModifier(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Energy")))
+	{
+		SetEnergy(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Health")))
+	{
+		SetHealth(EffectValue);
+	}
 }

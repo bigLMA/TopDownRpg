@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "GameplayTagContainer.h"
 #include "StatsComponent.generated.h"
 
+class UStatusEffectComponent;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TOPDOWNRPG_API UStatsComponent : public UActorComponent
@@ -67,11 +69,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Initialization")
 	void InitializeStats();
 
+	UFUNCTION()
+	void ApplyEffect(FGameplayTag GameplayTag, int32 EffectValue);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Max Health|Base Value")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Max Health|Base Value", meta=(ClampMin=1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 BaseMaxHealth = 13;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Max Health")
@@ -80,7 +85,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Health")
 	int32 Health;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Max Energy|Base Value")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Max Energy|Base Value", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 BaseMaxEnergy = 7;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Max Energy")
@@ -89,25 +94,25 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Energy")
 	int32 Energy;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Strength")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Strength", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 Strength = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Agility")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Agility", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 Agility = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Constitution")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Constitution", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 Constitution = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Intelligence")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Intelligence", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 Intelligence = 1;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Armour|Base Value")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Armour|Base Value", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 BaseArmour = 5;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Armour")
 	int32 Armour;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Magres|Base Value")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Magres|Base Value", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
 	int32 BaseMagres = 2;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Magres")
@@ -135,4 +140,6 @@ private:
 
 	// Helper function called when Max Energy is chnged
 	void AdjustEnergyToMax(float DivideValue);
+
+	UStatusEffectComponent* StatusEffectComponent;
 };

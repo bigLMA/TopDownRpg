@@ -3,6 +3,7 @@
 
 #include "AiCharacter.h"
 #include "StatsComponent.h"
+#include "StatusEffectComponent.h"
 
 // Sets default values
 AAiCharacter::AAiCharacter()
@@ -11,6 +12,8 @@ AAiCharacter::AAiCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Stats = CreateDefaultSubobject<UStatsComponent>("Stats");
+
+	StatusEffects = CreateDefaultSubobject<UStatusEffectComponent>("Status Effects");
 }
 
 // Called when the game starts or when spawned
