@@ -24,14 +24,29 @@ void UStatusEffectComponent::BeginPlay()
 
 void UStatusEffectComponent::InitializeEffects()
 {
-	for (auto Effect : Effects)
-	{
-		FireEffect(Effect);
-	}
-	//for (int32 I = 0; I<Effects.Num(); ++I)
+	//for (auto Effect : Effects)
 	//{
-	//	FireEffect(Effects[I]);
+	//	FireEffect(Effect);
 	//}
+	bool bIsInstant = false;
+	int32 Length = Effects.Num();
+
+	for (int32 I = 0; I < Length; ++I)
+	{
+		if (bIsInstant)
+		{
+			--I;
+		}
+
+		if (!Effects.IsValidIndex(I))
+		{
+			break;
+		}
+
+		bIsInstant = Effects[I]->GetDuration() == EEffectDuration::Instant;
+
+		FireEffect(Effects[I]);
+	}
 }
 
 //
@@ -40,19 +55,20 @@ void UStatusEffectComponent::AddEffect(AStatusEffect* EffectToAdd)
 	Effects.Add(EffectToAdd);
 
 	FireEffect(EffectToAdd);
-
-	//TODO tick effect and set timer
-	//for (auto Effect : EffectToAdd->GetEffectContainers())
-	//{
-
-	//}
 }
 
 
 //
 void UStatusEffectComponent::RemoveEffect(AStatusEffect* EffectToRemove)
 {
+	Effects.Remove(EffectToRemove);
 
+	if (EffectToRemove->GetDuration() != EEffectDuration::Instant)
+	{
+		FireFinishEffect(EffectToRemove);
+	}
+
+	EffectToRemove->Destroy();
 }
 
 
@@ -63,5 +79,26 @@ void UStatusEffectComponent::FireEffect(AStatusEffect* EffectToFire)
 	for (auto EffectUnit : EffectComposition)
 	{
 		OnEffectFire.Broadcast(EffectUnit.EffectTag, EffectUnit.EffectValue);
+	}
+
+	if (EffectToFire->GetDuration() == EEffectDuration::Instant)
+	{
+		RemoveEffect(EffectToFire);
+	}
+	else
+	{
+			//TODO set timer
+	}
+}
+
+
+// Function called when effect is removed from component, in order to revert effect changes
+void UStatusEffectComponent::FireFinishEffect(AStatusEffect* EffectToFire)
+{
+	auto EffectComposition = EffectToFire->GetEffectComposition();
+
+	for (auto EffectUnit : EffectComposition)
+	{
+		FinishEffect.Broadcast(EffectUnit.EffectTag, EffectUnit.EffectValue* -1);
 	}
 }

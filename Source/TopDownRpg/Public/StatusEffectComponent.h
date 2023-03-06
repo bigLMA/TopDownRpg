@@ -9,7 +9,9 @@
 
 class AStatusEffect;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEffectDelegate, FGameplayTag, GameplayTag, int32, EffectValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEffectDelegate, FGameplayTag, GameplayTag, int32, EffectValue)
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FFinishEffectDelegate, FGameplayTag, GameplayTag, int32, EffectValue)
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -30,6 +32,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void FireEffect(AStatusEffect* EffectToFire);
 
+	// Function called when effect is removed from component, in order to revert effect changes
+	UFUNCTION(BlueprintCallable)
+	void FireFinishEffect(AStatusEffect* EffectToFire);
+
 	UFUNCTION(BlueprintCallable)
 	void InitializeEffects();
 
@@ -39,8 +45,11 @@ public:
 	//UFUNCTION(BlueprintCallable)
 	//void NewTurnStarted();
 
-	//UPROPERTY()
+	UPROPERTY()
 	FEffectDelegate OnEffectFire;
+
+	UPROPERTY()
+	FFinishEffectDelegate FinishEffect;
 
 protected:
 	// Called when the game starts
@@ -48,4 +57,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
 	TArray<AStatusEffect*> Effects;		
+
+private:
+	// Variable to count effect duration while not in fight
+	int32 SecondsPerTurn = 4;
 };

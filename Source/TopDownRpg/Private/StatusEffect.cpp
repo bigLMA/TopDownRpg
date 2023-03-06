@@ -24,3 +24,9 @@ TArray<FEffectComposition> AStatusEffect::GetEffectComposition()
 	return EffectComposition;
 }
 
+
+EEffectDuration AStatusEffect::GetDuration()
+{
+	return EffectDuration;
+}
+
