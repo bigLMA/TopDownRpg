@@ -7,6 +7,9 @@
 #include "GameplayTagContainer.h"
 #include "StatusEffect.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEffectFiring, AStatusEffect*, Self)
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFinishEffect, AStatusEffect*, Self)
+
 UENUM(BlueprintType)
 enum class EEffectDuration : uint8
 {
@@ -44,10 +47,31 @@ public:
 	AStatusEffect();
 
 	UFUNCTION(BlueprintCallable)
-	TArray<FEffectComposition> GetEffectComposition();
+	TArray<FEffectComposition> GetEffectComposition() const;
 
 	UFUNCTION(BlueprintCallable)
-	EEffectDuration GetDuration();
+	EEffectDuration GetDuration() const;
+
+	UFUNCTION()
+	EEffectFiring GetEffectFiring() const;
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetCurrentDuration() const;
+
+	UFUNCTION(BlueprintCallable)
+	void SetDurationTimer();
+
+	UFUNCTION(BlueprintCallable)
+	void DecreaseDuration();
+
+	UFUNCTION(BlueprintCallable)
+	void InitializeDuration();
+
+	UPROPERTY()
+	FEffectFiring OnFireEffect;
+
+	UPROPERTY()
+	FOnFinishEffect OnFinishEffect;
 
 protected:
 	// Called when the game starts or when spawned
@@ -56,8 +80,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info")
 	FText EffectName;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|Effect Duration", meta = (EditCondition = "EffectDuration==EEffectDuration::Duration"))
+	int32 BaseDuration;
+
 	// Effect duration, regulates how is effect added and removed within status effect component.
-	// Can be instant, constant or durational. Constant and durational effects revert their effects applied.
+	// Can be instant, constant or durational. Constant and durational fired once effects revert their effects applied.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|Effect Duration")
 	EEffectDuration	EffectDuration;
 
@@ -68,7 +95,7 @@ protected:
 	TArray<FEffectComposition> EffectComposition;
 
 	// If effect has certain duration (Constant or Duration), this variable regulates effect firing logic
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|EffectFiring", meta = (EditCondition = "EffectDuration!=EEffectDuration::Instant"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|EffectFiring", meta = (EditCondition = "EffectDuration==EEffectDuration::Duration"))
 	EEffectFiring EffectFiring;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  Category = "Effect Thumbnail")
@@ -82,5 +109,10 @@ protected:
 	// TODO Effects effects
 	
 private:
+	// Variable to count effect duration while not in fight
+	int32 SecondsPerTurn = 4;
+
+	FTimerHandle Timer;
+
 	int32 CurrentDuration;
 };

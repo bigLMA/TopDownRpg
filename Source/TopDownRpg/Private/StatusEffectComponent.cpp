@@ -24,10 +24,6 @@ void UStatusEffectComponent::BeginPlay()
 
 void UStatusEffectComponent::InitializeEffects()
 {
-	//for (auto Effect : Effects)
-	//{
-	//	FireEffect(Effect);
-	//}
 	bool bIsInstant = false;
 	int32 Length = Effects.Num();
 
@@ -49,10 +45,11 @@ void UStatusEffectComponent::InitializeEffects()
 	}
 }
 
+
 //
 void UStatusEffectComponent::AddEffect(AStatusEffect* EffectToAdd)
 {
-	Effects.Add(EffectToAdd);
+	Effects.Add(EffectToAdd); // TODO check if stackable, add if true, otherwise renew old effect
 
 	FireEffect(EffectToAdd);
 }
@@ -63,7 +60,7 @@ void UStatusEffectComponent::RemoveEffect(AStatusEffect* EffectToRemove)
 {
 	Effects.Remove(EffectToRemove);
 
-	if (EffectToRemove->GetDuration() != EEffectDuration::Instant)
+	if (EffectToRemove->GetDuration() == EEffectDuration::Constant || EffectToRemove->GetDuration() == EEffectDuration::Duration&& EffectToRemove->GetEffectFiring()==EEffectFiring::Once)
 	{
 		FireFinishEffect(EffectToRemove);
 	}
@@ -72,8 +69,10 @@ void UStatusEffectComponent::RemoveEffect(AStatusEffect* EffectToRemove)
 }
 
 
+
 void UStatusEffectComponent::FireEffect(AStatusEffect* EffectToFire)
 {
+
 	auto EffectComposition = EffectToFire->GetEffectComposition();
 
 	for (auto EffectUnit : EffectComposition)
@@ -85,10 +84,24 @@ void UStatusEffectComponent::FireEffect(AStatusEffect* EffectToFire)
 	{
 		RemoveEffect(EffectToFire);
 	}
-	else
+	else if(EffectToFire->GetDuration() == EEffectDuration::Duration&& EffectToFire->GetEffectFiring() == EEffectFiring::PerTurn)
 	{
-			//TODO set timer
+		EffectToFire->SetDurationTimer();
+		EffectToFire->OnFireEffect.AddUniqueDynamic(this, &UStatusEffectComponent::FireEffect);
+		EffectToFire->OnFinishEffect.AddUniqueDynamic(this, &UStatusEffectComponent::RemoveEffect);
 	}
+	else if (EffectToFire->GetDuration() == EEffectDuration::Duration)
+	{
+		EffectToFire->SetDurationTimer();
+		EffectToFire->OnFinishEffect.AddUniqueDynamic(this, &UStatusEffectComponent::RemoveEffect);
+	}
+}
+
+
+
+void UStatusEffectComponent::LowerEffectDuration(AStatusEffect* Effect)
+{
+
 }
 
 

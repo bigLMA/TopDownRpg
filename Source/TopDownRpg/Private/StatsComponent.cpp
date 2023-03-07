@@ -23,6 +23,7 @@ void UStatsComponent::BeginPlay()
 	if (StatusEffectComponent)
 	{
 		StatusEffectComponent->OnEffectFire.AddDynamic(this, &UStatsComponent::ApplyEffect);
+		StatusEffectComponent->FinishEffect.AddDynamic(this, &UStatsComponent::ApplyEffect);
 	}
 }
 

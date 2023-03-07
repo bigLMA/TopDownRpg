@@ -39,6 +39,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitializeEffects();
 
+	UFUNCTION(BlueprintCallable)
+	void LowerEffectDuration(AStatusEffect* Effect);
+
 	//UFUNCTION(BlueprintCallable)
 	//void SetEffectOnRemoveTimer(AStatusEffect* Effect);
 
@@ -56,9 +59,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effects")
-	TArray<AStatusEffect*> Effects;		
+	TArray<AStatusEffect*> Effects;
 
 private:
-	// Variable to count effect duration while not in fight
-	int32 SecondsPerTurn = 4;
 };

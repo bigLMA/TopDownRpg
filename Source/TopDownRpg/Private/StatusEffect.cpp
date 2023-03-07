@@ -19,14 +19,72 @@ void AStatusEffect::BeginPlay()
 
 
 //
-TArray<FEffectComposition> AStatusEffect::GetEffectComposition()
+TArray<FEffectComposition> AStatusEffect::GetEffectComposition() const
 {
 	return EffectComposition;
 }
 
 
-EEffectDuration AStatusEffect::GetDuration()
+
+EEffectDuration AStatusEffect::GetDuration() const
 {
 	return EffectDuration;
+}
+
+EEffectFiring AStatusEffect::GetEffectFiring() const
+{
+	return EffectFiring;
+}
+
+
+
+int32 AStatusEffect::GetCurrentDuration() const
+{
+	return CurrentDuration;
+}
+
+
+//
+void AStatusEffect::SetDurationTimer()
+{
+
+	if (true)
+	{
+		GetWorld()->GetTimerManager().SetTimer(Timer, this, &AStatusEffect::DecreaseDuration, SecondsPerTurn, true);
+	}
+	else		//TODO for turn based
+	{
+		GetWorld()->GetTimerManager().ClearTimer(Timer);
+	}
+}
+
+
+//
+void AStatusEffect::DecreaseDuration()
+{
+	--BaseDuration;
+
+	if(EffectDuration == EEffectDuration::Duration&& EffectFiring == EEffectFiring::PerTurn|| BaseDuration<=0)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(Timer);
+
+		if (BaseDuration > 0)
+		{
+
+			UE_LOG(LogTemp, Warning, TEXT("broadcast"))
+			OnFireEffect.Broadcast(this);
+		}
+		else
+		{
+			OnFinishEffect.Broadcast(this);
+		}
+	}
+}
+
+
+
+void AStatusEffect::InitializeDuration()
+{
+	CurrentDuration = BaseDuration;
 }
 
