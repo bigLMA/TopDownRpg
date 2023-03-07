@@ -70,8 +70,6 @@ void AStatusEffect::DecreaseDuration()
 
 		if (BaseDuration > 0)
 		{
-
-			UE_LOG(LogTemp, Warning, TEXT("broadcast"))
 			OnFireEffect.Broadcast(this);
 		}
 		else
@@ -83,8 +81,27 @@ void AStatusEffect::DecreaseDuration()
 
 
 
-void AStatusEffect::InitializeDuration()
+void AStatusEffect::RefreshDuration()
 {
 	CurrentDuration = BaseDuration;
+}
+
+
+
+bool AStatusEffect::IsStackable()
+{
+	return bIsStackable;
+}
+
+
+FGameplayTagContainer AStatusEffect::GetCancelTags()
+{
+	return CancelTags;
+}
+
+
+FGameplayTagContainer AStatusEffect::GetTagsToCancel()
+{
+	return TagsToCancel;
 }
 

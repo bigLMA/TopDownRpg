@@ -42,6 +42,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void LowerEffectDuration(AStatusEffect* Effect);
 
+	// Returns true if effect is stackable or if no effects with similar class found
+	UFUNCTION(BlueprintCallable)
+	bool EnsureEffectStackable(AStatusEffect* EffectToEnsure, int32& EffectIndex);
+
 	//UFUNCTION(BlueprintCallable)
 	//void SetEffectOnRemoveTimer(AStatusEffect* Effect);
 

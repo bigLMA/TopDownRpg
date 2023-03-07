@@ -49,9 +49,38 @@ void UStatusEffectComponent::InitializeEffects()
 //
 void UStatusEffectComponent::AddEffect(AStatusEffect* EffectToAdd)
 {
-	Effects.Add(EffectToAdd); // TODO check if stackable, add if true, otherwise renew old effect
+	int32 Index = 0;
 
+	if(EnsureEffectStackable(EffectToAdd, Index))
+	{
+		Effects.Add(EffectToAdd);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT(" not added !!! %d"), Index)
+		Effects[Index]->RefreshDuration();
+		EffectToAdd->Destroy();
+	}
+										// TODO check for effect to cancel or cancelled by
 	FireEffect(EffectToAdd);
+}
+
+
+// Returns true if effect is stackable or if no effects with similar class found
+bool UStatusEffectComponent::EnsureEffectStackable(AStatusEffect* EffectToEnsure, int32& EffectIndex)
+{
+	if (EffectToEnsure->IsStackable()) { return true; }
+
+	for (int32 Index = 0; Index<Effects.Num();++Index)
+	{
+		if (EffectToEnsure->GetClass() == Effects[Index]->GetClass())
+		{
+			EffectIndex = Index;
+			return false;
+		}
+	}
+
+	return true;
 }
 
 

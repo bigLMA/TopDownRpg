@@ -31,8 +31,7 @@ struct FEffectComposition
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag EffectTag;
 
-	// If affects stat, regulate how much add or substract from stat,
-	// If affect state, positive number adds state, while negative purges
+	// This value affects onle stats, regulate how much add or substract from stat
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly);
 	int32 EffectValue;
 };
@@ -65,7 +64,16 @@ public:
 	void DecreaseDuration();
 
 	UFUNCTION(BlueprintCallable)
-	void InitializeDuration();
+	void RefreshDuration();
+
+	UFUNCTION(BlueprintCallable)
+	bool IsStackable();
+
+	UFUNCTION(BlueprintCallable)
+	FGameplayTagContainer GetCancelTags();
+
+	UFUNCTION(BlueprintCallable)
+	FGameplayTagContainer GetTagsToCancel();
 
 	UPROPERTY()
 	FEffectFiring OnFireEffect;
@@ -80,6 +88,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info")
 	FText EffectName;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info")
+	FText EffectDescription;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|Effect Duration", meta = (EditCondition = "EffectDuration==EEffectDuration::Duration"))
 	int32 BaseDuration;
 
@@ -88,11 +99,22 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|Effect Duration")
 	EEffectDuration	EffectDuration;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|Stackable")
+	bool bIsStackable;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Thumbnail", meta = (EditCondition = "bHasThumbnail"))
 	UTexture2D* EffectThumbnail;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Containers")
 	TArray<FEffectComposition> EffectComposition;
+
+	// Tags that will cancel this effect
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Conditions|Tags to cancel this effect")
+	FGameplayTagContainer CancelTags;
+
+	// Tags that will be canceled by this effect
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Conditions|Tags to cancel other effects")
+	FGameplayTagContainer TagsToCancel;
 
 	// If effect has certain duration (Constant or Duration), this variable regulates effect firing logic
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|EffectFiring", meta = (EditCondition = "EffectDuration==EEffectDuration::Duration"))
