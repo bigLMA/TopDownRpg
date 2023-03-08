@@ -32,7 +32,7 @@ struct FEffectComposition
 	FGameplayTag EffectTag;
 
 	// This value affects onle stats, regulate how much add or substract from stat
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int32 EffectValue;
 };
 
@@ -69,12 +69,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsStackable();
 
-	UFUNCTION(BlueprintCallable)
-	FGameplayTagContainer GetCancelTags();
-
-	UFUNCTION(BlueprintCallable)
-	FGameplayTagContainer GetTagsToCancel();
-
 	UPROPERTY()
 	FEffectFiring OnFireEffect;
 
@@ -105,16 +99,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Thumbnail", meta = (EditCondition = "bHasThumbnail"))
 	UTexture2D* EffectThumbnail;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Containers")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Composition")
 	TArray<FEffectComposition> EffectComposition;
-
-	// Tags that will cancel this effect
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Conditions|Tags to cancel this effect")
-	FGameplayTagContainer CancelTags;
-
-	// Tags that will be canceled by this effect
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Conditions|Tags to cancel other effects")
-	FGameplayTagContainer TagsToCancel;
 
 	// If effect has certain duration (Constant or Duration), this variable regulates effect firing logic
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Info|EffectFiring", meta = (EditCondition = "EffectDuration==EEffectDuration::Duration"))
@@ -128,7 +114,7 @@ protected:
 
 	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Effect Visuals")
 	//UParticleSystem* EffectVisual;
-	// TODO Effects effects
+	// TODO Effects effects and sound 
 	
 private:
 	// Variable to count effect duration while not in fight

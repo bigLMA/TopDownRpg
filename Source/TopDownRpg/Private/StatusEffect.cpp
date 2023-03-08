@@ -55,6 +55,7 @@ void AStatusEffect::SetDurationTimer()
 	else		//TODO for turn based
 	{
 		GetWorld()->GetTimerManager().ClearTimer(Timer);
+		DecreaseDuration();
 	}
 }
 
@@ -64,7 +65,7 @@ void AStatusEffect::DecreaseDuration()
 {
 	--BaseDuration;
 
-	if(EffectDuration == EEffectDuration::Duration&& EffectFiring == EEffectFiring::PerTurn|| BaseDuration<=0)
+	if(EffectDuration == EEffectDuration::Duration&& EffectFiring == EEffectFiring::PerTurn|| BaseDuration<=0)	//TODO for turn based
 	{
 		GetWorld()->GetTimerManager().ClearTimer(Timer);
 
@@ -92,16 +93,3 @@ bool AStatusEffect::IsStackable()
 {
 	return bIsStackable;
 }
-
-
-FGameplayTagContainer AStatusEffect::GetCancelTags()
-{
-	return CancelTags;
-}
-
-
-FGameplayTagContainer AStatusEffect::GetTagsToCancel()
-{
-	return TagsToCancel;
-}
-

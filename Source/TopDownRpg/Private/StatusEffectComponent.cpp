@@ -57,7 +57,6 @@ void UStatusEffectComponent::AddEffect(AStatusEffect* EffectToAdd)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT(" not added !!! %d"), Index)
 		Effects[Index]->RefreshDuration();
 		EffectToAdd->Destroy();
 	}
