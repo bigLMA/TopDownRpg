@@ -12,13 +12,17 @@ struct FSlot
 {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FItem SlotItem;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	int32 SlotQuantity;
 
-	FSlot(){}
+	FSlot()
+	{
+		SlotItem = FItem();
+		SlotQuantity = 0;
+	}
 
 	FSlot(FItem Item, int32 Quantity)
 	{
@@ -27,7 +31,7 @@ struct FSlot
 	}
 };
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TOPDOWNRPG_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -36,15 +40,33 @@ public:
 	// Sets default values for this component's properties
 	UInventoryComponent();
 
-	UFUNCTION(BlueprintType)
+	UFUNCTION(BlueprintCallable)
 	void AddToInventory(AInventoryItemBase* ItemToAdd);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void ToggleInventory(UInventoryComponent* Container = nullptr);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void RefreshInventory();
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveFromInventory(int32 SlotIndex);
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory name")
+	FText InventoryName;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory size")
+	int32 InventorySize;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory")
 	TArray<FSlot> Inventory;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory widget")
+	UUserWidget* InventoryWidget;
 
 private:
 	void CreateNewStack(AInventoryItemBase* Item);

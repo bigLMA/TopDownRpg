@@ -79,3 +79,17 @@ void UInventoryComponent::AddToStack(int32 SlotIndex)
 {
 	Inventory[SlotIndex].SlotQuantity += 1;
 }
+
+
+
+void UInventoryComponent::RemoveFromInventory(int32 SlotIndex)
+{
+	if (Inventory[SlotIndex].SlotQuantity - 1 < 1)
+	{
+		Inventory.RemoveAt(SlotIndex);
+	}
+	else
+	{
+		Inventory[SlotIndex].SlotQuantity -= 1;
+	}
+}

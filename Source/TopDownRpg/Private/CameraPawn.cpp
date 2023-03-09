@@ -65,9 +65,9 @@ void ACameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		EnhancedInput->BindAction(RotateCamera, ETriggerEvent::Triggered, this, &ACameraPawn::Rotate);
 		EnhancedInput->BindAction(SelectUnit, ETriggerEvent::Triggered, this, &ACameraPawn::Select);
 		EnhancedInput->BindAction(OrderUnit, ETriggerEvent::Triggered, this, &ACameraPawn::Order);
+		EnhancedInput->BindAction(Inventory, ETriggerEvent::Completed, this, &ACameraPawn::ToggleInventory);
 	}
 }
-
 
 void ACameraPawn::Move(const FInputActionValue& Value)
 {

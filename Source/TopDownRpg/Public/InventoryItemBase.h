@@ -39,6 +39,19 @@ struct FItem
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<AInventoryItemBase> Class;
+
+	FItem()
+	{
+		ItemName = FText();
+		ItemDescription = FText();
+		ItemImage = nullptr;
+		ItemType = FGameplayTag();
+		bIsStackble = false;
+		MaxStackSize = 0;
+		Price = 0;
+		Weight = 0;
+		//Class = TSubclassOf<AInventoryItemBase>;
+	}
 };
 
 UCLASS()
@@ -58,7 +71,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Item info")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item info")
 	FItem ItemInfo;
 
 };

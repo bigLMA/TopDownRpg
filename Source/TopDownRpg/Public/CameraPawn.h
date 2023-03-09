@@ -23,6 +23,15 @@ public:
 	// Sets default values for this pawn's properties
 	ACameraPawn();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ToggleInventory();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -43,37 +52,34 @@ protected:
 	UInputMappingContext* MappingContext;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Move")
-		UInputAction* MoveCamera;
+	UInputAction* MoveCamera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Zoom")
-		UInputAction* ZoomCamera;
+	UInputAction* ZoomCamera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Zoom")
-		float ZoomMin = 900.f;
+	float ZoomMin = 900.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Zoom")
-		float ZoomMax = 2250.f;
+	float ZoomMax = 2250.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Zoom")
-		float ZoomSpeed = -95.f;
+	float ZoomSpeed = -95.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Rotate")
-		UInputAction* RotateCamera;
+	UInputAction* RotateCamera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Select")
-		UInputAction* SelectUnit;
+	UInputAction* SelectUnit;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Order")
-		UInputAction* OrderUnit;
+	UInputAction* OrderUnit;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input|Inventory")
+	UInputAction* Inventory;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Selected Pawn")
 		AAiCharacter* SelectedCharacter = nullptr;
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
 	void Move(const FInputActionValue& Value);
