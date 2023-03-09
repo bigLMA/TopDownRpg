@@ -7,21 +7,22 @@
 AInventoryItemBase::AInventoryItemBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 // Called when the game starts or when spawned
 void AInventoryItemBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
-void AInventoryItemBase::Tick(float DeltaTime)
+
+void AInventoryItemBase::UseItem()
 {
-	Super::Tick(DeltaTime);
-
+	UE_LOG(LogTemp, Warning, TEXT("%s is used"), *GetName())
 }
 
+FItem& AInventoryItemBase::GetItemInfo()
+{
+	return ItemInfo;
+}

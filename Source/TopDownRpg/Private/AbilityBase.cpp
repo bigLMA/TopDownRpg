@@ -5,6 +5,8 @@
 #include "AiCharacter.h"
 #include "StatsComponent.h"
 #include "StatusEffectComponent.h"
+#include "StatusEffect.h"
+
 
 // Sets default values
 AAbilityBase::AAbilityBase()
