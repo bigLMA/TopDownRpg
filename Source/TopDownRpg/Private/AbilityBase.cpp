@@ -6,6 +6,7 @@
 #include "StatsComponent.h"
 #include "StatusEffectComponent.h"
 #include "StatusEffect.h"
+#include "Animation/AnimMontage.h"
 
 
 // Sets default values
@@ -25,7 +26,7 @@ void AAbilityBase::BeginPlay()
 }
 
 
-
+// Prepares ability to cast, allowing player to choose cast target, area etc
 void AAbilityBase::PrepareAbility()
 {
 	if (IsAbilityOnCooldown()) { return; }
@@ -38,7 +39,7 @@ void AAbilityBase::PrepareAbility()
 }
 
 
-// 
+// Starts ability to behave, starts cooldown, animation etc
 void AAbilityBase::ActivateAbility()
 {
 	SetAbilityOnCooldown();
@@ -46,23 +47,31 @@ void AAbilityBase::ActivateAbility()
 }
 
 
+// Play ability animation
+void AAbilityBase::PlayAnimation()
+{
+	AbilityCaster->PlayAnimMontage(AbilityMontage);
+}
 
-void AAbilityBase::CastAbility()
+
+// Applies ability effects on target
+void AAbilityBase::ApplyAbilityEffects()
 {
 	UE_LOG(LogTemp, Warning, TEXT("After anim function"))
 }
 
-
+// Set character who casts ability
 void AAbilityBase::SetAbilityCaster(AAiCharacter* Target)
 {
 	AbilityCaster = Target;
 }
 
 
-void AAbilityBase::AddAbilityTarget(AAiCharacter* Target)
-{
-	AbilityTargets.Add(Target);
-}
+//// Add ability target (sets if target is single)
+//void AAbilityBase::AddAbilityTarget(AAiCharacter* Target)
+//{
+//	AbilityTargets.Add(Target);
+//}
 
 
 

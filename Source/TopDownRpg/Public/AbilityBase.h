@@ -45,23 +45,29 @@ public:
 	// Sets default values for this actor's properties
 	AAbilityBase();
 
+	// Prepares ability to cast, allowing player to choose cast target, area etc
 	UFUNCTION(BlueprintCallable)
 	void PrepareAbility();
 
+	// Starts ability to behave, starts cooldown, animation etc
 	UFUNCTION(BlueprintCallable)
 	void ActivateAbility();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	// Play ability animation
+	UFUNCTION(BlueprintCallable)
 	void PlayAnimation();
 
+	// Applies ability effects on target
 	UFUNCTION(BlueprintCallable)
-	void CastAbility();
+	void ApplyAbilityEffects();
 
+	// Set character who casts ability
 	UFUNCTION(BlueprintCallable)
 	void SetAbilityCaster(AAiCharacter* Target);
 
-	UFUNCTION(BlueprintCallable)
-	void AddAbilityTarget(AAiCharacter* Target);
+	//// Add ability target (sets if target is single)
+	//UFUNCTION(BlueprintCallable)
+	//void AddAbilityTarget(AAiCharacter* Target);
 
 	UFUNCTION(BlueprintCallable)
 	void SetAbilityOnCooldown();
@@ -88,10 +94,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info")
 	FText AbilityDescription;
 
-	// Determines way of ability cast behaviour
-	// Use children tags of "AbilityFeatures" tag for this variable
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Ability feature")
-	FGameplayTag AbilityFeature;
+	//// Determines way of ability cast behaviour
+	//// Use children tags of "AbilityFeatures" tag for this variable
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Ability feature")
+	//FGameplayTag AbilityFeature;
 
 	// Determines base chance of ability applied successfully
 	// 100 means ability success is guaranteed
@@ -104,7 +110,7 @@ protected:
 	FGameplayTag CasterSkill;
 
 	// Determins which skill is going to influence succsess chance
-	// Use chid children tags of "Stats.AbilityDefecne" tag for this variable
+	// Use chid children tags of "Stats.AbilityDefence" tag for this variable
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Success chance", meta = (EditCondition = "BaseChance<100"))
 	FGameplayTag TargetAbilityDefence;
 
@@ -130,12 +136,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Composition")
 	TArray<FAbilityComposition> AbilityComposition;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Caster")
-	AAiCharacter* AbilityCaster;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Target")
-	TArray<AAiCharacter*> AbilityTargets;
-
 private:
 	int32 CurrentCooldown = 0;
 
@@ -145,4 +145,9 @@ private:
 	int32 SecondsPerTurn = 4;
 
 	FTimerHandle Timer;
+
+	AAiCharacter* AbilityCaster;
+
+	//UPROPERTY(BlueprintReadOnly, Category = "Target")
+	//TArray<AAiCharacter*> AbilityTargets;
 };
