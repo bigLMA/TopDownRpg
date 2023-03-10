@@ -15,9 +15,11 @@ struct FSkalingValues
 {
 	GENERATED_USTRUCT_BODY()
 
+	// Which stat to take from stats component
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag StatToScale;
 
+	// What percent of stat is to add to effect
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float ScalingPercent;
 };
@@ -65,22 +67,27 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetAbilityCaster(AAiCharacter* Target);
 
-	//// Add ability target (sets if target is single)
-	//UFUNCTION(BlueprintCallable)
-	//void AddAbilityTarget(AAiCharacter* Target);
+	// Add ability target (sets if target is single)
+	UFUNCTION(BlueprintCallable)
+	void AddAbilityTarget(AActor* Target);
 
+	// Make ability unable to cast during cooldown
 	UFUNCTION(BlueprintCallable)
 	void SetAbilityOnCooldown();
 
+	// Decrease cooldown by one
 	UFUNCTION(BlueprintCallable)
 	void DecreaseCooldown();
 
+	// Returns if ability is on cooldown
 	UFUNCTION(BlueprintCallable)
 	bool IsAbilityOnCooldown();
 
+	// Returns current cooldown value
 	UFUNCTION(BlueprintCallable)
 	int32 GetCurrentCooldown();
 
+	// Calculates if ability reaches target actors
 	UFUNCTION(BlueprintCallable)
 	bool CalculateAbilityChance();
 
@@ -88,9 +95,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Ability name
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info")
 	FText AbilityName;
 
+	// Ability description
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info")
 	FText AbilityDescription;
 
@@ -114,12 +123,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Success chance", meta = (EditCondition = "BaseChance<100"))
 	FGameplayTag TargetAbilityDefence;
 
+	// How many turns(or ticks) takes to refresh ability
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Cooldown")
 	int32 AbilityCooldown;
 
+	// How much energy to take from ability target
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Cost")
 	int32 EnergyCost;
 
+	// Anim montage to play
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Animation")
 	UAnimMontage* AbilityMontage;
 
@@ -127,12 +139,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|SpawnActor")
 	bool bHasSpawnActor;
 
+	// Use only if ability feature is has spawn actor
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|SpawnActor", meta = (EditCondition = "bHasSpawnActor"))
 	TSubclassOf<AActor> SpawnActor;
 
+	// Ability picture
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Thumbnail")
 	UTexture2D* AbilityThumbnail;
 
+	// Set of diiferent effects (or one effect) that should be applied on target
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Composition")
 	TArray<FAbilityComposition> AbilityComposition;
 
@@ -148,6 +163,5 @@ private:
 
 	AAiCharacter* AbilityCaster;
 
-	//UPROPERTY(BlueprintReadOnly, Category = "Target")
-	//TArray<AAiCharacter*> AbilityTargets;
+	TArray<AActor*> AbilityTargets;
 };

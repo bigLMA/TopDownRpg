@@ -28,7 +28,7 @@ void AAbilityBase::BeginPlay()
 
 // Prepares ability to cast, allowing player to choose cast target, area etc
 void AAbilityBase::PrepareAbility()
-{
+{	// Check energy
 	if (IsAbilityOnCooldown()) { return; }
 
 	// spawn ability show actor
@@ -50,6 +50,8 @@ void AAbilityBase::ActivateAbility()
 // Play ability animation
 void AAbilityBase::PlayAnimation()
 {
+	UAnimInstance* AnimInstance = AbilityCaster->GetMesh()->GetAnimInstance();
+
 	AbilityCaster->PlayAnimMontage(AbilityMontage);
 }
 
@@ -57,8 +59,9 @@ void AAbilityBase::PlayAnimation()
 // Applies ability effects on target
 void AAbilityBase::ApplyAbilityEffects()
 {
-	UE_LOG(LogTemp, Warning, TEXT("After anim function"))
+	UE_LOG(LogTemp, Warning, TEXT("Appying effects"))
 }
+
 
 // Set character who casts ability
 void AAbilityBase::SetAbilityCaster(AAiCharacter* Target)
@@ -67,59 +70,63 @@ void AAbilityBase::SetAbilityCaster(AAiCharacter* Target)
 }
 
 
-//// Add ability target (sets if target is single)
-//void AAbilityBase::AddAbilityTarget(AAiCharacter* Target)
-//{
-//	AbilityTargets.Add(Target);
-//}
+// Add ability target (sets if target is single)
+void AAbilityBase::AddAbilityTarget(AActor* Target)
+{
+	AbilityTargets.Add(Target);
+}
 
 
-
+// Make ability unable to cast during cooldown
 void AAbilityBase::SetAbilityOnCooldown()	//TODO for turn based
 {
 	CurrentCooldown = AbilityCooldown;
 
+	// Check if turn based
 	if (true)
 	{
+		// Decrease by timer if real time 
 		GetWorld()->GetTimerManager().SetTimer(Timer, this, &AAbilityBase::DecreaseCooldown, SecondsPerTurn, true, SecondsPerTurn);
 	}
 	else
 	{
+		// Otherwise stop timer and wait for manual decreasment
 		GetWorld()->GetTimerManager().ClearTimer(Timer);
-		DecreaseCooldown();
+		//DecreaseCooldown();
 	}
 }
 
 
-
+// Decrease cooldown value
 void AAbilityBase::DecreaseCooldown()
 {
 	--CurrentCooldown;
 
-	if (CurrentCooldown<1)	//TODO for turn based
+	// if cooldown value is 0
+	if (CurrentCooldown<1)
 	{
+		// Remove timer
 		GetWorld()->GetTimerManager().ClearTimer(Timer);
 	}
 }
 
 
-
+// Returns if ability is on cooldown
 bool AAbilityBase::IsAbilityOnCooldown()
 {
 	return CurrentCooldown>0;
-
-	
 }
 
 
 
+// Returns current cooldown value
 int32 AAbilityBase::GetCurrentCooldown()
 {
 	return CurrentCooldown;
 }
 
 
-
+// Calculates if ability reaches target actors
 bool AAbilityBase::CalculateAbilityChance()
 {
 	if (BaseChance == 100)
@@ -128,10 +135,6 @@ bool AAbilityBase::CalculateAbilityChance()
 	}
 	else
 	{
-		return false;		// if base chance + caster skill - target ability defence >= FMath::RandRange(1, 100);
+		return false;		// TODO if base chance + caster skill - target ability defence >= FMath::RandRange(1, 100);
 	}
 }
-	
-
-
-	

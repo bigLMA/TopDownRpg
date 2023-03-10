@@ -10,6 +10,8 @@ UInteract::UInteract(const FObjectInitializer& ObjectInitializer)
 {
 }
 
+
+// Task Execution
 EBTNodeResult::Type UInteract::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();

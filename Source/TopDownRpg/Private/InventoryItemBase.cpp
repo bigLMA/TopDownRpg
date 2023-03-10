@@ -17,11 +17,14 @@ void AInventoryItemBase::BeginPlay()
 }
 
 
+// Use item in a way function overridden by child classes
 void AInventoryItemBase::UseItem()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s is used"), *GetName())
 }
 
+
+// Gets item info
 FItem& AInventoryItemBase::GetItemInfo()
 {
 	return ItemInfo;

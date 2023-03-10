@@ -19,6 +19,7 @@ void UInventoryComponent::BeginPlay()
 }
 
 
+// Adds item to inventory
 void UInventoryComponent::AddToInventory(AInventoryItemBase* ItemToAdd)
 {
 	// Check if item is stackable
@@ -48,14 +49,15 @@ void UInventoryComponent::AddToInventory(AInventoryItemBase* ItemToAdd)
 }
 
 
-
+// Creates new stack
 void UInventoryComponent::CreateNewStack(AInventoryItemBase* Item)
 {
 	Inventory.Add(FSlot(Item->GetItemInfo(), 1));
+	TryToExpandInventory();
 }
 
 
-
+// Looks for aviable stacks 
 bool UInventoryComponent::CheckOtherStacks(AInventoryItemBase* Item, int32 & InventoryIndex) const
 {
 	auto ClassToFind = Item->GetItemInfo().Class;
@@ -81,15 +83,33 @@ void UInventoryComponent::AddToStack(int32 SlotIndex)
 }
 
 
-
+// Remomes slot from inventory
 void UInventoryComponent::RemoveFromInventory(int32 SlotIndex)
 {
 	if (Inventory[SlotIndex].SlotQuantity - 1 < 1)
 	{
 		Inventory.RemoveAt(SlotIndex);
+		TryToReduceInventory();
 	}
 	else
 	{
 		Inventory[SlotIndex].SlotQuantity -= 1;
+	}
+}
+
+// Check if there is need to add new inventory slots
+void UInventoryComponent::TryToExpandInventory()
+{
+	if (InventorySize - Inventory.Num() <= SlotDifferenceToChangeSize)
+	{
+		InventorySize += 6;
+	}
+}
+
+void UInventoryComponent::TryToReduceInventory()
+{
+	if (InventorySize - Inventory.Num() >= SlotDifferenceToChangeSize * 2)
+	{
+		InventorySize -= 6;
 	}
 }

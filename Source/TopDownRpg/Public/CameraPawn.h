@@ -29,6 +29,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Display party inventory
 	UFUNCTION(BlueprintImplementableEvent)
 	void ToggleInventory();
 
@@ -82,13 +83,18 @@ protected:
 		AAiCharacter* SelectedCharacter = nullptr;
 
 private:
+	// Move player camera
 	void Move(const FInputActionValue& Value);
 
+	// Zoom player camera
 	void Zoom(const FInputActionValue& Value);
 
+	// Rotate player camera
 	void Rotate(const FInputActionValue& Value);
 
+	// Select unit by mouse clicking
 	void Select(const FInputActionValue& Value);
 
+	// Issue order to selected unit 
 	void Order(const FInputActionValue& Value);
 };

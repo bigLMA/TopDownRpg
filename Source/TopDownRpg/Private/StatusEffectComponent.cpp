@@ -22,6 +22,7 @@ void UStatusEffectComponent::BeginPlay()
 }
 
 
+// Activates existing effects
 void UStatusEffectComponent::InitializeEffects()
 {
 	bool bIsInstant = false;
@@ -46,7 +47,7 @@ void UStatusEffectComponent::InitializeEffects()
 }
 
 
-//
+// Adds new effect
 void UStatusEffectComponent::AddEffect(AStatusEffect* EffectToAdd)
 {
 	int32 Index = 0;
@@ -54,14 +55,14 @@ void UStatusEffectComponent::AddEffect(AStatusEffect* EffectToAdd)
 	if(EnsureEffectStackable(EffectToAdd, Index))
 	{
 		Effects.Add(EffectToAdd);
+		EffectToAdd->RefreshDuration();
+		FireEffect(EffectToAdd);
 	}
 	else
 	{
 		Effects[Index]->RefreshDuration();
 		EffectToAdd->Destroy();
-	}
-										// TODO check for effect to cancel or cancelled by
-	FireEffect(EffectToAdd);
+	}									// TODO check for effect to cancel or cancelled by
 }
 
 
@@ -83,11 +84,12 @@ bool UStatusEffectComponent::EnsureEffectStackable(AStatusEffect* EffectToEnsure
 }
 
 
-//
+// Removes effect
 void UStatusEffectComponent::RemoveEffect(AStatusEffect* EffectToRemove)
 {
 	Effects.Remove(EffectToRemove);
 
+	// if effct is durational and firese once or constant, revert effect changes
 	if (EffectToRemove->GetDuration() == EEffectDuration::Constant || EffectToRemove->GetDuration() == EEffectDuration::Duration&& EffectToRemove->GetEffectFiring()==EEffectFiring::Once)
 	{
 		FireFinishEffect(EffectToRemove);
@@ -97,7 +99,7 @@ void UStatusEffectComponent::RemoveEffect(AStatusEffect* EffectToRemove)
 }
 
 
-
+// Fires effect, changing stat or applying state
 void UStatusEffectComponent::FireEffect(AStatusEffect* EffectToFire)
 {
 
@@ -123,13 +125,6 @@ void UStatusEffectComponent::FireEffect(AStatusEffect* EffectToFire)
 		EffectToFire->SetDurationTimer();
 		EffectToFire->OnFinishEffect.AddUniqueDynamic(this, &UStatusEffectComponent::RemoveEffect);
 	}
-}
-
-
-
-void UStatusEffectComponent::LowerEffectDuration(AStatusEffect* Effect)
-{
-
 }
 
 

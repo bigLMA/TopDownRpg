@@ -45,33 +45,43 @@ public:
 	// Sets default values for this actor's properties
 	AStatusEffect();
 
+	// Gets all values to change in effect
 	UFUNCTION(BlueprintCallable)
 	TArray<FEffectComposition> GetEffectComposition() const;
 
+	// Gets effect duration
 	UFUNCTION(BlueprintCallable)
 	EEffectDuration GetDuration() const;
 
+	// Gets effect firing
 	UFUNCTION()
 	EEffectFiring GetEffectFiring() const;
 
+	// Gets current effect duration remaining
 	UFUNCTION(BlueprintCallable)
 	int32 GetCurrentDuration() const;
 
+	// Start timer (if realtime) to to decrease effect duration
 	UFUNCTION(BlueprintCallable)
 	void SetDurationTimer();
 
+	// Decrease  duration value
 	UFUNCTION(BlueprintCallable)
 	void DecreaseDuration();
 
+	// Sets effect duration
 	UFUNCTION(BlueprintCallable)
 	void RefreshDuration();
 
+	// Returns if effect stacks
 	UFUNCTION(BlueprintCallable)
 	bool IsStackable();
 
+	// Delegator to fire effect
 	UPROPERTY()
 	FEffectFiring OnFireEffect;
 
+	// Delegator to finish effect
 	UPROPERTY()
 	FOnFinishEffect OnFinishEffect;
 

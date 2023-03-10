@@ -28,7 +28,7 @@ void UStatsComponent::BeginPlay()
 }
 
 
-// 
+// Sets max health based on modifier and other stats
 void UStatsComponent::SetMaxHealth()
 {
 	float DivideValue = float(Health) / float(MaxHealth);
@@ -46,7 +46,7 @@ void UStatsComponent::AdjustHealthToMax(float DivideValue)
 }
 
 
-//
+// Changes health
 void UStatsComponent::SetHealth(int32 ValueToChange)
 {
 	Health += ValueToChange;
@@ -54,14 +54,14 @@ void UStatsComponent::SetHealth(int32 ValueToChange)
 }
 
 
-//
+// Reset health to max health
 void UStatsComponent::ResetHealth()
 {
 	Health = MaxHealth;
 }
 
 
-//
+// Sets max energy based on modifier and other stats
 void UStatsComponent::SetMaxEnergy()
 {
 	float DivideValue = float(Energy) / float(MaxEnergy);
@@ -71,7 +71,7 @@ void UStatsComponent::SetMaxEnergy()
 }
 
 
-// Helper function called when Max Energy is chnged
+// Helper function called when Max Energy is changed
 void UStatsComponent::AdjustEnergyToMax(float DivideValue)
 {
 	auto NewEnergy = float(MaxEnergy) * DivideValue;
@@ -79,7 +79,7 @@ void UStatsComponent::AdjustEnergyToMax(float DivideValue)
 }
 
 
-//
+// Changes current energy
 void UStatsComponent::SetEnergy(int32 ValueToChange)
 {
 	Energy += ValueToChange;
@@ -87,14 +87,14 @@ void UStatsComponent::SetEnergy(int32 ValueToChange)
 }
 
 
-
+// Reset energy to max energy
 void UStatsComponent::ResetEnergy()
 {
 	Energy = MaxEnergy;
 }
 
 
-//
+// Sets armour based modifier and other stats
 void UStatsComponent::SetArmour()
 {
 	auto NewArmour = float(Agility) / AgilityToArmourDivider + ArmourModifier + BaseArmour;
@@ -102,7 +102,7 @@ void UStatsComponent::SetArmour()
 }
 
 
-//
+// Sets magres based modifier and other stats
 void UStatsComponent::SetMagres()
 {
 	auto NewMagres = float(Intelligence) / IntelligenceToMagresDivider + MagresModifier + BaseMagres;
@@ -110,7 +110,7 @@ void UStatsComponent::SetMagres()
 }
 
 
-//
+// Changes current strength
 void UStatsComponent::SetStrength(int32 ValueToChange)
 {
 	Strength += ValueToChange;
@@ -119,7 +119,7 @@ void UStatsComponent::SetStrength(int32 ValueToChange)
 }
 
 
-//
+// Changes current agility
 void UStatsComponent::SetAgility(int32 ValueToChange)
 {
 	Agility += ValueToChange;
@@ -128,7 +128,7 @@ void UStatsComponent::SetAgility(int32 ValueToChange)
 }
 
 
-//
+// Changes current constitution
 void UStatsComponent::SetConstitution(int32 ValueToChange)
 {
 	Constitution += ValueToChange;
@@ -137,7 +137,7 @@ void UStatsComponent::SetConstitution(int32 ValueToChange)
 }
 
 
-//
+// Changes current intelligence
 void UStatsComponent::SetIntelligence(int32 ValueToChange)
 {
 	Intelligence += ValueToChange;
@@ -146,7 +146,7 @@ void UStatsComponent::SetIntelligence(int32 ValueToChange)
 }
 
 
-//
+// Changes modifier value of max health
 void UStatsComponent::SetMaxHealthModifier(int32 ValueToChange)
 {
 	MaxHealtModifier += ValueToChange;
@@ -154,7 +154,7 @@ void UStatsComponent::SetMaxHealthModifier(int32 ValueToChange)
 }
 
 
-//
+// Changes modifier value of max energy
 void UStatsComponent::SetMaxEnergyModifier(int32 ValueToChange)
 {
 	MaxEnergyModifier += ValueToChange;
@@ -162,7 +162,7 @@ void UStatsComponent::SetMaxEnergyModifier(int32 ValueToChange)
 }
 
 
-//
+// Changes modifier value of armour
 void UStatsComponent::SetArmourModifier(int32 ValueToChange)
 {
 	ArmourModifier += ValueToChange;
@@ -170,7 +170,7 @@ void UStatsComponent::SetArmourModifier(int32 ValueToChange)
 }
 
 
-//
+// Changes modifier value of magres
 void UStatsComponent::SetMagresModifier(int32 ValueToChange)
 {
 	MagresModifier += ValueToChange;
@@ -178,7 +178,7 @@ void UStatsComponent::SetMagresModifier(int32 ValueToChange)
 }
 
 
-//
+// Initializes all stats
 void UStatsComponent::InitializeStats()
 {
 	SetMaxEnergy();
@@ -190,8 +190,8 @@ void UStatsComponent::InitializeStats()
 }
 
 
-//
-void UStatsComponent::ApplyEffect(FGameplayTag GameplayTag, int32 EffectValue)
+// Change stats based on gameplay tag
+void UStatsComponent::ApplyEffect(FGameplayTag& GameplayTag, int32 EffectValue)
 {
 	FGameplayTag StateTag = FGameplayTag::RequestGameplayTag("State");
 
@@ -239,4 +239,5 @@ void UStatsComponent::ApplyEffect(FGameplayTag GameplayTag, int32 EffectValue)
 	{
 		SetHealth(EffectValue);
 	}
+	//TODO damage and new stats
 }

@@ -40,6 +40,7 @@ struct FItem
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<AInventoryItemBase> Class;
 
+	// Default constructor
 	FItem()
 	{
 		ItemName = FText();
@@ -63,8 +64,11 @@ public:
 	// Sets default values for this actor's properties
 	AInventoryItemBase();
 
+	// Use item in a way function overridden by child classes
+	UFUNCTION(BlueprintCallable)
 	virtual void UseItem();
 
+	// Gets item info
 	FItem& GetItemInfo();
 
 protected:

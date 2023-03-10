@@ -36,7 +36,7 @@ void AAiCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
-
+// Gets characters attitude towards player
 EAttitudeTowardsPlayer AAiCharacter::GetAttitude()
 {
 	return AttitudeTowardsPlayer;

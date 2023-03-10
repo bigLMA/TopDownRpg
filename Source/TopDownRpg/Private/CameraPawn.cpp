@@ -35,6 +35,7 @@ void ACameraPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Setup player input system
 	if (APlayerController* PlayerController = Cast< APlayerController>(GetController()))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
@@ -60,15 +61,22 @@ void ACameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	if (UEnhancedInputComponent* EnhancedInput = CastChecked< UEnhancedInputComponent>(PlayerInputComponent))
 	{
+		// Controls
 		EnhancedInput->BindAction(MoveCamera, ETriggerEvent::Triggered, this, &ACameraPawn::Move);
 		EnhancedInput->BindAction(ZoomCamera, ETriggerEvent::Triggered, this, &ACameraPawn::Zoom);
 		EnhancedInput->BindAction(RotateCamera, ETriggerEvent::Triggered, this, &ACameraPawn::Rotate);
+
+		// Unit interactions
 		EnhancedInput->BindAction(SelectUnit, ETriggerEvent::Triggered, this, &ACameraPawn::Select);
 		EnhancedInput->BindAction(OrderUnit, ETriggerEvent::Triggered, this, &ACameraPawn::Order);
+
+		// Other
 		EnhancedInput->BindAction(Inventory, ETriggerEvent::Completed, this, &ACameraPawn::ToggleInventory);
 	}
 }
 
+
+// Move player camera
 void ACameraPawn::Move(const FInputActionValue& Value)
 {
 	auto MoveValue = Value.Get<FVector2D>();
@@ -78,6 +86,7 @@ void ACameraPawn::Move(const FInputActionValue& Value)
 }
 
 
+// Zoom player camera
 void ACameraPawn::Zoom(const FInputActionValue& Value)
 {
 	auto ZoomValue = Value.Get<float>();
@@ -87,6 +96,7 @@ void ACameraPawn::Zoom(const FInputActionValue& Value)
 }
 
 
+// Rotate player camera
 void ACameraPawn::Rotate(const FInputActionValue& Value)
 {
 	auto RotateValue = Value.Get<float>();
@@ -95,10 +105,12 @@ void ACameraPawn::Rotate(const FInputActionValue& Value)
 }
 
 
+// Select unit by mouse clicking
 void ACameraPawn::Select(const FInputActionValue& Value)
 {
 	auto Selection = Value.Get<bool>();
 
+	// Unsellect previous character (if valid)
 	if(SelectedCharacter)
 	{
 		SelectedCharacter->Selected(false);
@@ -113,6 +125,7 @@ void ACameraPawn::Select(const FInputActionValue& Value)
 		{
 			if (AAiCharacter* Character = Cast<AAiCharacter>(HitResult.GetActor()))
 			{
+				// Select character
 				SelectedCharacter = Character;
 				SelectedCharacter->Selected(true);
 			}
@@ -121,6 +134,7 @@ void ACameraPawn::Select(const FInputActionValue& Value)
 }
 
 
+// Issue order to selected unit 
 void ACameraPawn::Order(const FInputActionValue& Value)
 {
 	auto Ordering = Value.Get<bool>();
@@ -137,14 +151,15 @@ void ACameraPawn::Order(const FInputActionValue& Value)
 
 			if(GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(TraceTypeQuery4, true, HitResult) && HitResult.GetActor()!= SelectedCharacter)
 			{
+				// Issue interact order
 				SelectedCharacterController->SetMoveValue(HitResult.Location);
 				SelectedCharacterController->SetInteractedActor(HitResult.GetActor());
 			}
 			else if (GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorForObjects(Array, true, HitResult) && HitResult.GetActor() != SelectedCharacter)
 			{
+				// Issue move order
 				SelectedCharacterController->SetMoveValue(HitResult.Location);
 			}
 		}
 	}
 }
-
