@@ -59,9 +59,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PlayAnimation();
 
-	// Applies ability effects on target
-	UFUNCTION(BlueprintCallable)
-	void ApplyAbilityEffects();
+	// Implementable event for cast on blueprints
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void CastAbility();
 
 	// Set character who casts ability
 	UFUNCTION(BlueprintCallable)
@@ -164,4 +164,7 @@ private:
 	AAiCharacter* AbilityCaster;
 
 	TArray<AActor*> AbilityTargets;
+
+	// Applies ability effects on target
+	virtual void CastAbilityInternal();
 };

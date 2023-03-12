@@ -50,14 +50,19 @@ void AAbilityBase::ActivateAbility()
 // Play ability animation
 void AAbilityBase::PlayAnimation()
 {
-	UAnimInstance* AnimInstance = AbilityCaster->GetMesh()->GetAnimInstance();
-
 	AbilityCaster->PlayAnimMontage(AbilityMontage);
 }
 
 
+// Implementable event for cast on blueprints
+void AAbilityBase::CastAbility_Implementation()
+{
+	CastAbilityInternal();
+}
+
+
 // Applies ability effects on target
-void AAbilityBase::ApplyAbilityEffects()
+void AAbilityBase::CastAbilityInternal()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Appying effects"))
 }
