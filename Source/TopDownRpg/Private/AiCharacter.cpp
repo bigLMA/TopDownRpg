@@ -4,6 +4,7 @@
 #include "AiCharacter.h"
 #include "StatsComponent.h"
 #include "StatusEffectComponent.h"
+#include "AbilitiesComponent.h"
 
 // Sets default values
 AAiCharacter::AAiCharacter()
@@ -14,6 +15,8 @@ AAiCharacter::AAiCharacter()
 	Stats = CreateDefaultSubobject<UStatsComponent>("Stats");
 
 	StatusEffects = CreateDefaultSubobject<UStatusEffectComponent>("Status Effects");
+
+	AbilitiesComponent = CreateDefaultSubobject<UAbilitiesComponent>("Abilities");
 }
 
 // Called when the game starts or when spawned

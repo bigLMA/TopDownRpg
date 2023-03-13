@@ -27,14 +27,22 @@ void AAbilityBase::BeginPlay()
 
 
 // Prepares ability to cast, allowing player to choose cast target, area etc
-void AAbilityBase::PrepareAbility()
-{	// Check energy
+void AAbilityBase::PrepareAbility_Implementation()
+{	
+	PrepareAbilityInternal();
+}
+
+
+// Prepares ability to cast
+void AAbilityBase::PrepareAbilityInternal()
+{
+	// Check energy
 	if (IsAbilityOnCooldown()) { return; }
 
 	// spawn ability show actor
 
 	// wait until player confirmes ability activation
-	
+
 		// or cancel ability preparation
 }
 
@@ -50,6 +58,8 @@ void AAbilityBase::ActivateAbility()
 // Play ability animation
 void AAbilityBase::PlayAnimation()
 {
+	if (!AbilityMontage) { return; }
+
 	AbilityCaster->PlayAnimMontage(AbilityMontage);
 }
 

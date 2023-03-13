@@ -9,6 +9,7 @@
 class USelectionDecal;
 class UStatsComponent;
 class UStatusEffectComponent;
+class UAbilitiesComponent;
 
 UENUM()
 enum class EAttitudeTowardsPlayer :uint8
@@ -40,6 +41,9 @@ protected:
 	// Character status effect component
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Status Effects")
 	UStatusEffectComponent* StatusEffects;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+	UAbilitiesComponent* AbilitiesComponent;
 
 public:	
 	// Called every frame

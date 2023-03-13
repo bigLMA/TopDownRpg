@@ -48,7 +48,7 @@ public:
 	AAbilityBase();
 
 	// Prepares ability to cast, allowing player to choose cast target, area etc
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void PrepareAbility();
 
 	// Starts ability to behave, starts cooldown, animation etc
@@ -151,6 +151,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability Composition")
 	TArray<FAbilityComposition> AbilityComposition;
 
+	// Applies ability effects on target
+	virtual void CastAbilityInternal();
+
+	// Prepares ability to cast
+	virtual void PrepareAbilityInternal();
+
 private:
 	int32 CurrentCooldown = 0;
 
@@ -165,6 +171,7 @@ private:
 
 	TArray<AActor*> AbilityTargets;
 
-	// Applies ability effects on target
-	virtual void CastAbilityInternal();
+
+
+
 };
