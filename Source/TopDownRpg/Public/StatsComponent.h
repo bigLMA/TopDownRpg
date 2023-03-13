@@ -82,6 +82,34 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Modifier|Magres")
 	void SetMagresModifier(int32 ValueToChange);
 
+	// Changes melee skill value
+	UFUNCTION(BlueprintCallable, Category = "Melee")
+	void SetMelee(int32 ValueToSet);
+
+	//Changes ranged skill value
+	UFUNCTION(BlueprintCallable, Category = "Ranged")
+	void SetRanged(int32 ValueToSet);
+
+	//Changes arcane skill value
+	UFUNCTION(BlueprintCallable, Category = "Arcane")
+	void SetArcane(int32 ValueToSet);
+
+	//Changes social skill value
+	UFUNCTION(BlueprintCallable, Category = "Social")
+	void SetSocial(int32 ValueToSet);
+
+	//Changes blocking skill value
+	UFUNCTION(BlueprintCallable, Category = "Blocking")
+	void SetBlocking(int32 ValueToSet);
+
+	//Changes evading skill value
+	UFUNCTION(BlueprintCallable, Category = "Evading")
+	void SetEvading(int32 ValueToSet);
+
+	//Changes tenacity skill value
+	UFUNCTION(BlueprintCallable, Category = "Tenacity")
+	void SetTenacity(int32 ValueToSet);
+
 	// Initializes all stats
 	UFUNCTION(BlueprintCallable, Category = "Initialization")
 	void InitializeStats();
@@ -89,6 +117,8 @@ public:
 	// Change stats based on effect
 	UFUNCTION()
 	void ApplyEffect(FGameplayTag& GameplayTag, int32 EffectValue);
+
+	int32 GetStatByTag(FGameplayTag& GameplayTag) const;
 
 protected:
 	// Called when the game starts
@@ -136,7 +166,26 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Magres")
 	int32 Magres;
 
-	// TODO new stats (skills and defences)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skills|Melee", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
+	int32 Melee = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skills|Ranged", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
+	int32 Ranged = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skills|Arcane", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
+	int32 Arcane = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skills|Social", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
+	int32 Social = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Defensive skills|Blockng", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
+	int32 Blocking = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Defensive skills|Blockng", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
+	int32 Evading = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Defensive skills|Blockng", meta = (ClampMin = 1, UIMin = 1, ClampMax = 9999, UIMax = 9999))
+	int32 Tenacity = 1;
 
 private:
 	float CostitutionPerUnitToMaxHealth = 8;

@@ -142,7 +142,7 @@ int32 AAbilityBase::GetCurrentCooldown()
 
 
 // Calculates if ability reaches target actors
-bool AAbilityBase::CalculateAbilityChance()
+bool AAbilityBase::CalculateAbilityChance(AActor* Target)
 {
 	if (BaseChance == 100)
 	{
@@ -150,6 +150,16 @@ bool AAbilityBase::CalculateAbilityChance()
 	}
 	else
 	{
-		return false;		// TODO if base chance + caster skill - target ability defence >= FMath::RandRange(1, 100);
+		auto TargetStats = Target->FindComponentByClass<UStatsComponent>();
+
+		if (TargetStats)
+		{
+			if (auto CasterStats = AbilityCaster->FindComponentByClass<UStatsComponent>())
+			{
+				return BaseChance + CasterStats->GetStatByTag(CasterSkill) - TargetStats->GetStatByTag(StatToDefend) >= FMath::RandRange(1, 100);
+			}
+		}
+
+		return false;
 	}
 }

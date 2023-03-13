@@ -89,7 +89,7 @@ public:
 
 	// Calculates if ability reaches target actors
 	UFUNCTION(BlueprintCallable)
-	bool CalculateAbilityChance();
+	bool CalculateAbilityChance(AActor* Target);
 
 protected:
 	// Called when the game starts or when spawned
@@ -121,7 +121,7 @@ protected:
 	// Determins which skill is going to influence succsess chance
 	// Use chid children tags of "Stats.AbilityDefence" tag for this variable
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Success chance", meta = (EditCondition = "BaseChance<100"))
-	FGameplayTag TargetAbilityDefence;
+	FGameplayTag StatToDefend;
 
 	// How many turns(or ticks) takes to refresh ability
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability info|Cooldown")

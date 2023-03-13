@@ -30,10 +30,6 @@ void UAbilitiesComponent::InitializeAbilties()
 		{
 			AddActiveAbility(Index);
 		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("NO"))
-		}
 	}
 }
 
@@ -74,8 +70,4 @@ void UAbilitiesComponent::AddActiveAbility(int32 BookIndex, int32 AbilitySlot)
 		auto NewAbility = GetWorld()->SpawnActor<AAbilityBase>(AbilityBook[BookIndex], SpawnParams);
 		ActiveAbilities[AbilitySlot] = NewAbility;
 	}
-
-	
-
-		
 }

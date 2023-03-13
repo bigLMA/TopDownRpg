@@ -45,9 +45,9 @@ protected:
 	TArray<AAbilityBase*>ActiveAbilities;
 
 	// Defines how much active slots to add
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Active abilities slots")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Active abilities slots")
 	int32 ActiveSlots = 10;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Active abilities|Add new active abilities")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Active abilities|Add new active abilities")
 	bool bShouldAddAbilitiesToFullSlots = false;
 };

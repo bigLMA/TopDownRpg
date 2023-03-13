@@ -136,7 +136,6 @@ void UStatsComponent::SetConstitution(int32 ValueToChange)
 	SetMaxHealth();
 }
 
-
 // Changes current intelligence
 void UStatsComponent::SetIntelligence(int32 ValueToChange)
 {
@@ -178,6 +177,55 @@ void UStatsComponent::SetMagresModifier(int32 ValueToChange)
 }
 
 
+// Changes melee skill value
+void UStatsComponent::SetMelee(int32 ValueToSet)
+{
+	Melee += ValueToSet;
+}
+
+
+//Changes ranged skill value
+void UStatsComponent::SetRanged(int32 ValueToSet)
+{
+	Ranged += ValueToSet;
+}
+
+
+//Changes arcane skill value
+void UStatsComponent::SetArcane(int32 ValueToSet)
+{
+	Arcane += ValueToSet;
+}
+
+
+//Changes social skill value
+void UStatsComponent::SetSocial(int32 ValueToSet)
+{
+	Social += ValueToSet;
+}
+
+
+//Changes blocking skill value
+void UStatsComponent::SetBlocking(int32 ValueToSet)
+{
+	Blocking += ValueToSet;
+}
+
+
+//Changes evading skill value
+void UStatsComponent::SetEvading(int32 ValueToSet)
+{
+	Evading += ValueToSet;
+}
+
+
+//Changes tenacity skill value
+void UStatsComponent::SetTenacity(int32 ValueToSet)
+{
+	Tenacity += ValueToSet;
+}
+
+
 // Initializes all stats
 void UStatsComponent::InitializeStats()
 {
@@ -188,7 +236,6 @@ void UStatsComponent::InitializeStats()
 	ResetHealth();
 	ResetEnergy();
 }
-
 
 // Change stats based on gameplay tag
 void UStatsComponent::ApplyEffect(FGameplayTag& GameplayTag, int32 EffectValue)
@@ -239,5 +286,111 @@ void UStatsComponent::ApplyEffect(FGameplayTag& GameplayTag, int32 EffectValue)
 	{
 		SetHealth(EffectValue);
 	}
-	//TODO damage and new stats
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Arcane")))
+	{
+		SetArcane(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Melee")))
+	{
+		SetMelee(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Ranged")))
+	{
+		SetRanged(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Social")))
+	{
+		SetSocial(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.DefensiveSkills.Blocking")))
+	{
+		SetBlocking(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.DefensiveSkills.Evading")))
+	{
+		SetEvading(EffectValue);
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.DefensiveSkills.Tenacity")))
+	{
+		SetTenacity(EffectValue);
+	}
+}
+
+
+// Getter for stats
+int32 UStatsComponent::GetStatByTag(FGameplayTag& GameplayTag) const
+{
+	if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Strength")))
+	{
+		return Strength;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Agility")))
+	{
+		return Agility;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Constitution")))
+	{
+		return Constitution;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Intelligence")))
+	{
+		return Intelligence;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.MaxHealth")))
+	{
+		return MaxHealth;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.MaxEnergy")))
+	{
+		return MaxHealth;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Armour")))
+	{
+		return Armour;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Magres")))
+	{
+		return Magres;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Energy")))
+	{
+		return Energy;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Health")))
+	{
+		return Health;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Arcane")))
+	{
+		return Arcane;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Melee")))
+	{
+		return Melee;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Ranged")))
+	{
+		return Ranged;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.Skills.Social")))
+	{
+		return Social;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.DefensiveSkills.Blocking")))
+	{
+		return Blocking;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.DefensiveSkills.Evading")))
+	{
+		return Evading;
+	}
+	else if (GameplayTag.MatchesTag(FGameplayTag::RequestGameplayTag("Stats.DefensiveSkills.Tenacity")))
+	{
+		return Tenacity;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("ERROR! Please use right tag to get stats!"))
+		return -1;
+	}
 }
