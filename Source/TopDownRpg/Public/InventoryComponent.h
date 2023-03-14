@@ -13,11 +13,11 @@ struct FSlot
 	GENERATED_USTRUCT_BODY()
 
 	// Item information
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FItem SlotItem;
 	
 	//Quantity
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 SlotQuantity;
 
 	// Default constructor with no values
@@ -65,15 +65,15 @@ protected:
 	virtual void BeginPlay() override;
 
 	// Inventory name
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory name")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory name")
 	FText InventoryName;
 
 	// How much slots to create
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory size")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory size")
 	int32 InventorySize;
 
 	// Inventory
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	TArray<FSlot> Inventory;
 
 	// Widget

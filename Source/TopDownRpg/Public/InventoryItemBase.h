@@ -37,7 +37,7 @@ struct FItem
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int32 Weight;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AInventoryItemBase> Class;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -79,7 +79,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item info")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info")
 	FItem ItemInfo;
 
 	// Implementation of use item

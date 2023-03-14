@@ -13,6 +13,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UFloatingPawnMovement;
 class AAiCharacter;
+class UInventoryComponent;
 
 UCLASS()
 class TOPDOWNRPG_API ACameraPawn : public APawn
