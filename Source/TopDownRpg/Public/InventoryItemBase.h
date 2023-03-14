@@ -40,6 +40,9 @@ struct FItem
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<AInventoryItemBase> Class;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	bool bShouldDestroyItemOnUsed;
+
 	// Default constructor
 	FItem()
 	{
@@ -51,7 +54,7 @@ struct FItem
 		MaxStackSize = 0;
 		Price = 0;
 		Weight = 0;
-		//Class = TSubclassOf<AInventoryItemBase>;
+		bShouldDestroyItemOnUsed = true;
 	}
 };
 
@@ -64,9 +67,10 @@ public:
 	// Sets default values for this actor's properties
 	AInventoryItemBase();
 
-	// Use item in a way function overridden by child classes
-	UFUNCTION(BlueprintCallable)
-	virtual void UseItem();
+	// Calls use item
+	// Return should destroy item on use
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool UseItem();
 
 	// Gets item info
 	FItem& GetItemInfo();
@@ -78,4 +82,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item info")
 	FItem ItemInfo;
 
+	// Implementation of use item
+	virtual void UseItemInternal();
 };

@@ -96,5 +96,5 @@ private:
 	// Check if there is need to cut inventory slots
 	void TryToReduceInventory();
 
-	int32 SlotDifferenceToChangeSize = 5;
+	int32 SlotDifferenceToChangeSize = 6;
 };

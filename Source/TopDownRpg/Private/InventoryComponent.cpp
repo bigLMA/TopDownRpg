@@ -100,7 +100,7 @@ void UInventoryComponent::RemoveFromInventory(int32 SlotIndex)
 // Check if there is need to add new inventory slots
 void UInventoryComponent::TryToExpandInventory()
 {
-	if (InventorySize - Inventory.Num() <= SlotDifferenceToChangeSize)
+	if (InventorySize - Inventory.Num() <= SlotDifferenceToChangeSize+1)
 	{
 		InventorySize += 6;
 	}
@@ -108,7 +108,7 @@ void UInventoryComponent::TryToExpandInventory()
 
 void UInventoryComponent::TryToReduceInventory()
 {
-	if (InventorySize - Inventory.Num() >= SlotDifferenceToChangeSize * 2)
+	if (InventorySize - Inventory.Num() >= SlotDifferenceToChangeSize * 3+1)
 	{
 		InventorySize -= 6;
 	}

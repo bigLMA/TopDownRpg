@@ -17,12 +17,22 @@ void AInventoryItemBase::BeginPlay()
 }
 
 
-// Use item in a way function overridden by child classes
-void AInventoryItemBase::UseItem()
+// Calls use item
+// Return should destroy item on use
+bool AInventoryItemBase::UseItem_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s is used"), *GetName())
+	UseItemInternal();
+
+	return ItemInfo.bShouldDestroyItemOnUsed;
 }
 
+
+// Implementation of use item
+void AInventoryItemBase::UseItemInternal()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s is used"), *GetName())
+	Destroy();
+}
 
 // Gets item info
 FItem& AInventoryItemBase::GetItemInfo()
