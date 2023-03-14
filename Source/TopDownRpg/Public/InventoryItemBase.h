@@ -7,6 +7,8 @@
 #include "GameplayTagContainer.h"
 #include "InventoryItemBase.generated.h"
 
+class UBoxComponent;
+
 USTRUCT(BlueprintType)
 struct FItem
 {
@@ -79,9 +81,18 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Implementation of use item
+	virtual void UseItemInternal();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item info")
 	FItem ItemInfo;
 
-	// Implementation of use item
-	virtual void UseItemInternal();
+	UPROPERTY(EditDefaultsOnly,Category = "Root")
+	USceneComponent* ActorRootComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Static mesh")
+	UStaticMeshComponent* StaticMesh;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Collision")
+	UBoxComponent* Collision;
 };
